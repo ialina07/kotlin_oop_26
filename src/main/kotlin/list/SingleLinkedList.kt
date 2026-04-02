@@ -1,7 +1,6 @@
-package org.example
+package org.example.list
 
 class SingleLinkedList : CustomList {
-
     // don't use any java/kotlin internal datastructures like lists))
     // write from scratch))
 
@@ -48,7 +47,7 @@ class SingleLinkedList : CustomList {
     companion object {
         fun singleLinkedListOf(vararg items: Int) =
             items.fold(SingleLinkedList()) { list, item ->
-                list.also{ it.add(item) }
+                list.also { it.add(item) }
             }
     }
 }

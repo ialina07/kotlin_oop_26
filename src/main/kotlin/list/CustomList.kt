@@ -1,4 +1,4 @@
-package org.example
+package org.example.list
 
 interface CustomList : Iterable<Int> {
     operator fun get(index: Int): Int
