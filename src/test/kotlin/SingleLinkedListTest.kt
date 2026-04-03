@@ -85,14 +85,17 @@ class SingleLinkedListTest {
         }
     }
 
+    // Fixed (index(20) = 1)
+    @Test
     fun `indexOf works`() {
         list.add(10)
         list.add(20)
         list.add(30)
 
-        assertEquals(2, list.indexOf(20))
+        assertEquals(1, list.indexOf(20))
     }
 
+    @Test
     fun `set works`() {
         list.add(10)
         list.add(20)
@@ -100,5 +103,75 @@ class SingleLinkedListTest {
 
         list[2] = 5
         assertEquals(5, list[2])
+    }
+
+    // Test adding and removing from empty list edge cases
+    @Test
+    fun `custom test - add and remove from empty list`() {
+        assertFalse(list.remove(1))
+        assertEquals(0, list.size)
+
+        list.addFirst(100)
+        assertEquals(1, list.size)
+        assertEquals(100, list[0])
+
+        val newList = SingleLinkedList()
+        newList.add(200)
+        assertEquals(1, newList.size)
+        assertEquals(200, newList[0])
+    }
+
+    // Test duplicate values handling
+    @Test
+    fun `custom test - duplicate values`() {
+        list.add(5)
+        list.add(5)
+        list.add(5)
+        list.add(10)
+
+        assertEquals(4, list.size)
+
+        assertEquals(0, list.indexOf(5))
+
+        assertTrue(list.remove(5))
+        assertEquals(3, list.size)
+        assertEquals(5, list[0])
+        assertEquals(5, list[1])
+        assertEquals(10, list[2])
+
+        list.remove(5)
+        list.remove(5)
+        assertEquals(1, list.size)
+        assertEquals(10, list[0])
+    }
+
+    // Test multiple addFirst and set operations
+    @Test
+    fun `custom test - addFirst and set combination`() {
+        list.add(10)
+        list.add(20)
+        list.add(30)
+
+        list.addFirst(5)
+        list.addFirst(1)
+
+        assertEquals(5, list.size)
+        assertEquals(1, list[0])
+        assertEquals(5, list[1])
+        assertEquals(10, list[2])
+        assertEquals(20, list[3])
+        assertEquals(30, list[4])
+
+        list[0] = 100
+        list[2] = 200
+        list[4] = 300
+
+        assertEquals(100, list[0])
+        assertEquals(5, list[1])
+        assertEquals(200, list[2])
+        assertEquals(20, list[3])
+        assertEquals(300, list[4])
+
+        assertEquals(5, list.size)
     }
 }
