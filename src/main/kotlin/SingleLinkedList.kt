@@ -126,10 +126,10 @@ class SingleLinkedList : CustomList {
         var current = head
         var i = 0
         while (i < index) {
-            current = current?.next
+            current = current?.next ?: throw IndexOutOfBoundsException("Index: $index, Size: $size")
             i++
         }
-        return current!!
+        return current ?: throw IndexOutOfBoundsException("Index: $index, Size: $size")
     }
 
     companion object {
