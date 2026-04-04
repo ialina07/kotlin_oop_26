@@ -31,8 +31,7 @@ class SingleLinkedList : CustomList {
     // Update value at specific index
     override operator fun set(index: Int, value: Int) {
         checkIndex(index)
-        val node = getNode(index)
-        node?.value = value
+        getNode(index).value = value
     }
 
     // Add element to the beginning of the list
@@ -51,7 +50,7 @@ class SingleLinkedList : CustomList {
     // Get element at specific index
     override operator fun get(index: Int): Int {
         checkIndex(index)
-        return getNode(index)?.value ?: throw IndexOutOfBoundsException("Index: $index, Size: $size")
+        return getNode(index).value
     }
 
     // Find first occurrence index of element, return -1 if not found
@@ -123,14 +122,14 @@ class SingleLinkedList : CustomList {
     }
 
     // Helper function: get node at specific index
-    private fun getNode(index: Int): Node? {
+    private fun getNode(index: Int): Node {
         var current = head
         var i = 0
-        while (i < index && current != null) {
-            current = current.next
+        while (i < index) {
+            current = current?.next
             i++
         }
-        return current
+        return current!!
     }
 
     companion object {
