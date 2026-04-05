@@ -6,6 +6,7 @@ interface CustomList : Iterable<Int> {
     fun add(element: Int)
     fun addFirst(element: Int)
     fun remove(element: Int): Boolean
+    fun removeAt(index: Int): Int
     fun indexOf(element: Int): Int
     val size: Int
 }
