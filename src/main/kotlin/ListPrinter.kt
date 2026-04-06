@@ -1,10 +1,11 @@
 package org.example
 
-import org.example.list.CustomArrayList
 import org.example.list.CustomList
+import org.example.stack.Stack
 
-object ListPrinter {
-//    fun printList(list: ????) {
-//        implement
-//    }
+class ListPrinter {
+
+    fun printList(collection: CustomList) {
+        println("${collection::class.simpleName} (size=${collection.size}): $collection")
+    }
 }

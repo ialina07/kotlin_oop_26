@@ -12,5 +12,9 @@ interface Stack : CustomList {
     // Get top item from stack
     fun peek(): Int
 
+    // Check if stack is empty
     val isEmpty: Boolean
+
+    // Check if stack is empty
+    fun clear()
 }
