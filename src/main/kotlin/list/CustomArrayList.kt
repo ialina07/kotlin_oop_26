@@ -4,7 +4,8 @@ class CustomArrayList(initialCapacity: Int = 10) : CustomList {
     private var inner = IntArray(initialCapacity)
     private var _size = 0
 
-    override val size: Int get() = _size
+    override val size:
+            Int get() = _size
 
     override fun get(index: Int): Int {
         checkIndex(index)
@@ -18,9 +19,7 @@ class CustomArrayList(initialCapacity: Int = 10) : CustomList {
 
     override fun add(element: Int) {
         if (_size == inner.size) {
-            val newList = resize(inner.size * 2)
-            this.inner = newList.inner
-            this._size = newList._size
+            inner = resize(inner.size * 2, shiftRight = false)
         }
         inner[_size] = element
         _size++
@@ -28,12 +27,11 @@ class CustomArrayList(initialCapacity: Int = 10) : CustomList {
 
     override fun addFirst(element: Int) {
         if (_size == inner.size) {
-            val newList = resize(inner.size * 2)
-            this.inner = newList.inner
-            this._size = newList._size
-        }
-        for (i in _size downTo 1) {
-            inner[i] = inner[i - 1]
+            inner = resize(inner.size * 2, shiftRight = true)
+        } else {
+            for (i in _size downTo 1) {
+                inner[i] = inner[i - 1]
+            }
         }
         inner[0] = element
         _size++
@@ -74,12 +72,15 @@ class CustomArrayList(initialCapacity: Int = 10) : CustomList {
         }
     }
 
-    private fun resize(newSize: Int): CustomArrayList {
-        val newList = CustomArrayList(newSize)
-        for (i in 0 until _size) {
-            newList.add(inner[i])
+    private fun resize(newSize: Int, shiftRight: Boolean = false): IntArray {
+        val newInner = IntArray(newSize)
+        if (shiftRight) {
+            // копируем со сдвигом вправо на 1 (для addFirst)
+            System.arraycopy(inner, 0, newInner, 1, _size)
+        } else {
+            System.arraycopy(inner, 0, newInner, 0, _size)
         }
-        return newList
+        return newInner
     }
 
     private fun checkIndex(index: Int) {
@@ -89,13 +90,7 @@ class CustomArrayList(initialCapacity: Int = 10) : CustomList {
     }
 
     override fun toString(): String {
-        val sb = StringBuilder("[")
-        for (i in 0 until _size) {
-            sb.append(inner[i])
-            if (i < _size - 1) sb.append(", ")
-        }
-        sb.append("]")
-        return sb.toString()
+        return inner.sliceArray(0 until _size).joinToString(", ", "[", "]")
     }
 
     companion object {

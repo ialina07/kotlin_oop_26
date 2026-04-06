@@ -20,4 +20,10 @@ class SingleLinkedStack : SingleLinkedList(), Stack {
 
     override val isEmpty: Boolean
         get() = size == 0
+
+    override fun clear() {
+        while (!isEmpty) {
+            pop()
+        }
+    }
 }
