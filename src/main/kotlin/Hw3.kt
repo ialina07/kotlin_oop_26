@@ -4,16 +4,32 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 fun divideOrZero(a: Int, b: Int): Int {
-    TODO("IMPLEMENT")
+    return if (b == 0) 0 else a / b
 }
 
-class Supplier<T> {
-
+class Supplier<out T> {
+    fun get(): T? = null
 }
 
-class Consumer<T> {
-
+class Consumer<in T> {
+    fun accept(t: T) { /**/ }
 }
+
+class Lazy2<T>(private val initializer: () -> T) : ReadOnlyProperty<Any?, T> {
+    private var value: T? = null
+    private var initialized = false
+
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+        if (!initialized) {
+            value = initializer()
+            initialized = true
+        }
+        @Suppress("UNCHECKED_CAST")
+        return value as T
+    }
+}
+
+fun <T> lazy2(initializer: () -> T): Lazy2<T> = Lazy2(initializer)
 
 var initCount = 0
 var initCount3 = 0
@@ -28,12 +44,8 @@ class DelegateOwner {
     }
     val item3 by lazy2 {
         initCount3++
-        null
+        12
     }
-}
-
-class lazy2 {
-    // implement!
 }
 
 fun main() {
@@ -67,7 +79,7 @@ fun main() {
     }
 
     val res3 = owner.item3
-    if (res3 != null) {
+    if (res3 != 12) {
         error("Not correct res3")
     }
 
@@ -78,4 +90,7 @@ fun main() {
     if (initCount3 > 1) {
         error("Too much inits")
     }
+
+    println("All tests passed!")
+
 }
