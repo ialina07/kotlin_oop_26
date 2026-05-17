@@ -4,7 +4,11 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 fun divideOrZero(a: Int, b: Int): Int {
-    return if (b == 0) 0 else a / b
+    return try {
+        a / b
+    } catch (e: ArithmeticException) {
+        0
+    }
 }
 
 class Supplier<out T> {
